@@ -1,7 +1,7 @@
 import json
 
 def test_create_item(client):
-    data = {"title": "PC3", "description": "item four"}
+    data = {"title": "PC8", "description": "item nine"}
     response = client.post("/items", json.dumps(data))
     assert response.status_code == 200
 
