@@ -20,7 +20,7 @@ class Setting:
     POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5432)
     POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE", "mydb")
     DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DATABASE}"
-    SECURITY_KEY = os.getenv("SECURITY_KEY")
+    SECRET_KEY = os.getenv("SECRET_KEY")
     ALGORITHM = "HS256"
 
 setting = Setting()

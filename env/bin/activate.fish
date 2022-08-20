@@ -29,7 +29,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/hanlopb/Fastapt-Projects/E-commerce_Project/env"
+set -gx VIRTUAL_ENV "/home/hanlopb/FastAPI-Project/E-commerceApp/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/hanlopb/Fastapt-Projects/E-commerce_Project/env"
+VIRTUAL_ENV="/home/hanlopb/FastAPI-Project/E-commerceApp/env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
