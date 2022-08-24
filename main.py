@@ -3,6 +3,7 @@ from config import setting
 from database import engine
 from models import Base
 from routers import users, items, login
+from webapps.routers import item as web_item
 
 Base.metadata.create_all(bind=engine)
 
@@ -23,7 +24,7 @@ app = FastAPI(
         title=setting.TITLE,
         version = setting.VERSION,
         description=setting.DESCRIPTION,
-        openapi_tags=tags_metadata,
+       openapi_tags=tags_metadata,
         contact = {
             "name":setting.NAME,
             "email": setting.EMAIL
@@ -33,5 +34,6 @@ app = FastAPI(
 app.include_router(users.router)
 app.include_router(items.router)
 app.include_router(login.router)
+app.include_router(web_item.router)
 
 
