@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Items
+from models import Items, User
 
 router = APIRouter(include_in_schema = False)
 
@@ -16,7 +16,8 @@ def home(request: Request, db:Session=Depends(get_db)):
 @router.get("/detail/{id}")
 def item_details(request:Request, id:int, db:Session=Depends(get_db)):
     item = db.query(Items).filter(Items.id==id).first()
-    return templates.TemplateResponse("item_details.html", {"request":request, "item":item})
+    user = db.query(User).filter(User.id==item.owner_id).first()
+    return templates.TemplateResponse("item_details.html", {"request":request, "item":item, "user": user})
 
 
 
