@@ -4,6 +4,7 @@ from database import engine
 from models import Base
 from routers import users, items, login
 from webapps.routers import item as web_item
+from webapps.routers import users as web_users
 from fastapi.staticfiles import StaticFiles
 
 Base.metadata.create_all(bind=engine)
@@ -38,5 +39,5 @@ app.include_router(users.router)
 app.include_router(items.router)
 app.include_router(login.router)
 app.include_router(web_item.router)
-
+app.include_router(web_users.router)
 
