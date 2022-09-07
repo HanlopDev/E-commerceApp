@@ -6,15 +6,15 @@
 
 {% block content %}
   <div class="container">
-    <h1>Login here</h1>
+    <h1>Login here!!</h1>
     {% if msg %}
       <div class="alert alert-success" role="alert">
-        {{msg}}
+        {{ msg }}
       </div>
     {% endif %}
     {% for error in errors %}
       <div class="alert alert-danger" role="alert">
-        {{error}}
+        {{ error }}
      </div>
     {% endfor %}
    <form method="POST">

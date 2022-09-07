@@ -18,7 +18,7 @@ def login(request:Request):
 async def login(request:Request,response:Response,  db:Session=Depends(get_db)):
     form = await request.form()
     email = form.get("email")
-    password = form.get("pasword")
+    password = form.get("password")
     errors = []
     if not email:
         errors.append("Please enter valid email")
@@ -30,12 +30,13 @@ async def login(request:Request,response:Response,  db:Session=Depends(get_db)):
             errors.append("User does'nt exist")
             return templates.TemplateResponse("login.html", {"request":request, "errors":errors})
         else:
-            if Hasher.verify_password(password, user.password):
+            if Hasher.verify_password(password, user.password): 
                 data = {"sub":email}
-                jwt_token = jwt.encode(data, setting.SECRETY_KEY, algorithms=setting.ALGORITHM)
-                response.set_cookie(key="access_token", value=f"Bearer {jwt_token}", httponly=True)
+                jwt_token = jwt.encode(data, setting.SECRET_KEY, algorithm=setting.ALGORITHM)
                 msg = "Login successfully"
-                return templates.TemplateResponse("login.html", {"request":request, "msg":msg})
+                response = templates.TemplateResponse("login.html", {"request":request, "msg":msg})
+                response.set_cookie(key="access_token", value=f"Bearer {jwt_token}", httponly=True)
+                return response
             else:
                 errors.append("Invalid password")
                 return templates.TemplateResponse("login.html", {"request":request, "errors":errors})
