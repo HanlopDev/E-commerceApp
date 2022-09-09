@@ -28,7 +28,7 @@ async def registration(request:Request, db:Session=Depends(get_db)):
         db.add(user)
         db.commit()
         db.refresh(user)
-        return responses.RedirectResponse("/?msg=successfully registered", status_code=status.HTTP_302_FOUND)
+        return responses.RedirectResponse("/login?msg=successfully registered", status_code=status.HTTP_302_FOUND)
     except IntegrityError:
         errors.append("user already exist")
         return templates.TemplateResponse("register.html", {"request":request, "errors":errors})
