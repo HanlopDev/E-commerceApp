@@ -27,5 +27,5 @@ class Setting:
     TEST_ITEM = "item1"
     TEST_ITEM_DESC = "test item"
 
-setting = Setting()
 
+setting = Setting()
