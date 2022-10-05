@@ -36,20 +36,6 @@ def get_user_from_token(db, token):
     return user
 
 
-@router.post("/items", tags=["items"], response_model=ShowItem)
-def create_item(
-    item: ItemCreate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)
-):
-    user = get_user_from_token(db, token)
-    date_posted = datetime.now().date()
-    owner_id = user.id
-    item = Items(**item.dict(), date_posted=date_posted, owner_id=owner_id)
-    db.add(item)
-    db.commit()
-    db.refresh(item)
-    return item
-
-
 @router.get("/item/all", tags=["items"], response_model=List[ShowItem])
 def retrieve_al_items(db: Session = Depends(get_db)):
     items = db.query(Items).all()
