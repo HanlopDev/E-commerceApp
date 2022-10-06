@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status   
 from schemas import ItemCreate, ShowItem
 from models import Items, User
 from datetime import datetime
 from sqlalchemy.orm import Session
 from database import get_db
-from typing import List
+from typing import List, Optional
 from fastapi.encoders import jsonable_encoder
 from routers.login import oauth2_scheme
 from jose import jwt
@@ -41,7 +41,14 @@ def retrieve_al_items(db: Session = Depends(get_db)):
     items = db.query(Items).all()
     return items
 
-
+@router.get("/item/autocomplete")    
+def autocomplete(term: Optional[str], db:Session=Depends(get_db)):
+    items = db.query(Items).filter(Items.title.contains(term)).all()
+    sugestions = []
+    for item in items:
+        sugestions.append(item.title)
+        return sugestions
+        
 @router.get("/item/{id}", tags=["items"], response_model=ShowItem)
 def get_item_by_id(id: int, db: Session = Depends(get_db)):
     item = db.query(Items).filter(Items.id == id).first()
@@ -85,3 +92,5 @@ def delete_item_by_id(
         return {"message": f"Item with ID {id} is deleted"}
     else:
         return {"message": "you are not authorized"}
+
+
