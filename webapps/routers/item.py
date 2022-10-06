@@ -6,6 +6,7 @@ from models import Items, User
 from jose import jwt
 from config import setting
 from datetime import datetime
+from typing import Optional
 
 router = APIRouter(include_in_schema=False)
 
@@ -118,3 +119,8 @@ def item_to_delete(request: Request, db: Session = Depends(get_db)):
             return templates.TemplateResponse(
                 "item_to_delete.html", {"request": request, "errors": errors}
             )
+
+@router.get("/search")
+def search(request: Request, query:Optional[str], db:Session=Depends(get_db)):
+    items = db.query(Items).filter(Items.title.contains(query)).all()
+    return templates.TemplateResponse("item_homepage.html", {"request": request, "items": items})
