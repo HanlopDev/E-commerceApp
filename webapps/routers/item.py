@@ -28,6 +28,11 @@ def item_details(request: Request, id: int, db: Session = Depends(get_db)):
     return templates.TemplateResponse(
         "item_details.html", {"request": request, "item": item, "user": user}
     )
+    
+@router.get("/update-an-item/{id}")
+def update_item(id:int, request:Request, db:Session=Depends(get_db)):
+    item = db.query(Items).filter(Items.id==id).first()
+    return templates.TemplateResponse("update_item.html", {"request": request, "item": item})
 
 
 @router.get("/create-an-item")
@@ -92,14 +97,14 @@ async def create_item(request: Request, db: Session = Depends(get_db)):
         )
 
 
-@router.get("/delete-an-item")
+@router.get("/update-delete-an-item")
 def item_to_delete(request: Request, db: Session = Depends(get_db)):
     errors = []
     token = request.cookies.get("access_token")
     if token is None:
         errors.append("You are not logged in")
         return templates.TemplateResponse(
-            "item_to_delete.html", {"request": request, "errors": errors}
+            "item_to_update_delete.html", {"request": request, "errors": errors}
         )
     else:
         try:
@@ -111,13 +116,13 @@ def item_to_delete(request: Request, db: Session = Depends(get_db)):
             user = db.query(User).filter(User.email == email).first()
             items = db.query(Items).filter(Items.owner_id == user.id).all()
             return templates.TemplateResponse(
-                "item_to_delete.html", {"request": request, "items": items}
+                "item_to_update_delete.html", {"request": request, "items": items}
             )
         except Exception as e:
             errors.append("something is wrong")
             print(e)
             return templates.TemplateResponse(
-                "item_to_delete.html", {"request": request, "errors": errors}
+                "item_to_update_delete.html", {"request": request, "errors": errors}
             )
 
 @router.get("/search")
