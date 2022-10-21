@@ -12,17 +12,35 @@
           {{ error }}
         </div>
     {% endfor %}
+    <div id="result" class="text-success"></div>
     <form method="POST">
       <div class="mb-3">
         <label for="item-title" class="form-label">Item title</label>
-        <input type="text" class="form-control" name="title" value="{{ item.title }}" required placeholder="Enter item title">
+        <input type="text" class="form-control" name="title" id="title" value="{{ item.title }}" required placeholder="Enter item title">
       </div>
         <div class="mb-3">
           <label for="item description" class="form-label">Item description</label>
-          <textarea class="form-control" name="description" placeholder="Enter description">{{ item.description }}</textarea>
+          <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ item.description }}</textarea>
         </div>
           <div class="form-text">Update item descriptions in full details</div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <!-- <button type="submit" class="btn btn-primary">Update</button> -->
     </form>
+    <button type="submit" class="btn btn-primary" onclick="update_item({{item.id}})">Update</button>
   </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    function update_item(id){
+        var data = {}
+        data["title"] = document.getElementById("title").value
+        data["description"] = document.getElementById("description").value
+        fetch("/item/update/"+id,{
+        method: 'PUT', 
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(data)})
+        .then(response => response.json())
+        .then(data => document.getElementById("result").innerHTML = data.message)
+    }
+  </script>
 {% endblock %}

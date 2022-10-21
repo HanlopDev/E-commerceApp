@@ -59,7 +59,7 @@ def get_item_by_id(id: int, db: Session = Depends(get_db)):
     return item
 
 
-@router.put("/update/{id}", tags=["items"])
+@router.put("/item/update/{id}", tags=["items"])
 def update_item_by_id(
     id: int,
     item: ItemCreate,
